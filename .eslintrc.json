@@ -27,8 +27,6 @@
     "eslint:recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended",
-    "plugin:sonarjs/recommended",
     "plugin:unicorn/recommended",
     "plugin:security/recommended",
     "plugin:react-hooks/recommended"
@@ -37,14 +35,14 @@
     "no-console": "error",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-    "simple-import-sort/sort": "error",
-    "unicorn/filename-case": [
-      "error",
+    "simple-import-sort/imports": "error",
+    "unicorn/filename-case": "off",
+    "no-multiple-empty-lines": [
+      1,
       {
-        "cases": {
-          "camelCase": true,
-          "kebabCase": true
-        }
+        "max": 1,
+        "maxBOF": 1,
+        "maxEOF": 0
       }
     ]
   }
