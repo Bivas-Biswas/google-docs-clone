@@ -38,6 +38,7 @@
     "react/prop-types": "off",
     "simple-import-sort/imports": "error",
     "unicorn/filename-case": "off",
+    "unicorn/prefer-module": "warn",
     "no-multiple-empty-lines": [
       1,
       {
