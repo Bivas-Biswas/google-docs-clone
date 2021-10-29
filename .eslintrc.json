@@ -39,6 +39,8 @@
     "simple-import-sort/imports": "error",
     "unicorn/filename-case": "off",
     "unicorn/prefer-module": "warn",
+    "unicorn/explicit-length-check": "off",
+    "unicorn/prevent-abbreviations": "off",
     "no-multiple-empty-lines": [
       1,
       {

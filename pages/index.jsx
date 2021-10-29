@@ -1,10 +1,18 @@
 import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
 import Image from 'next/image';
+import { getSession, useSession } from 'next-auth/client';
 
 import Header from '../components/Header';
+import LogIn from '../components/LogIn';
 
 function Home() {
+  const [session] = useSession();
+
+  if (!session) {
+    return <LogIn />;
+  }
+
   return (
     <>
       <Header />
@@ -25,7 +33,8 @@ function Home() {
           <div>
             <div
               className='relative h-52 w-40 border-2 cursor-pointer
-              hover:border-blue-700'>
+              hover:border-blue-700'
+            >
               <Image src='/image/add_image.png' layout='fill' />
             </div>
             <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Blank</p>
@@ -47,3 +56,12 @@ function Home() {
 }
 
 export default Home;
+
+export async function getServerSideProps() {
+  const session = await getSession();
+  return {
+    props: {
+      session
+    }
+  };
+}
