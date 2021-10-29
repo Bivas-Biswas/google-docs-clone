@@ -1,16 +1,13 @@
-import { Button, Icon, Image } from '@material-tailwind/react';
-import Head from 'next/head';
+import Button from '@material-tailwind/react/Button';
+import Icon from '@material-tailwind/react/Icon';
+import Image from 'next/image';
 
 import Header from '../components/Header';
 
 function Home() {
   return (
-    <div>
-      <Head>
-        <title>Google Docs</title>
-      </Head>
+    <>
       <Header />
-
       <section className='bg-[#F8F9FA] pb-10 px-10'>
         <div className='max-w-3xl mx-auto'>
           <div className='flex items-center justify-between py-6'>
@@ -45,7 +42,7 @@ function Home() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
 
