@@ -2,7 +2,7 @@ import { FirebaseAdapter } from '@next-auth/firebase-adapter';
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
-import database from '../../../utils/firebase';
+import db from '../../../utils/firebase';
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -13,5 +13,5 @@ export default NextAuth({
     })
     // ...add more providers here
   ],
-  adapter: FirebaseAdapter(database)
+  adapter: FirebaseAdapter(db)
 });
