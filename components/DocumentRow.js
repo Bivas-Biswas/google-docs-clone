@@ -7,7 +7,7 @@ function DocumentRow({ id, fileName, date }) {
   return (
     <div
       className='flex items-center rounded pl-1
-       hover:bg-gray-100 cursor-pointer text-gray-700'
+       hover:bg-blue-100 cursor-pointer text-gray-700'
       onClick={() => router.push(`/docs/${id}`)}
     >
       <Icon name='article' size='3xl' color='blue' />
