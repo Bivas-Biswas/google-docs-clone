@@ -41,6 +41,7 @@
     "unicorn/prefer-module": "warn",
     "unicorn/explicit-length-check": "off",
     "unicorn/prevent-abbreviations": "off",
+    "react/jsx-filename-extension": "off",
     "no-multiple-empty-lines": [
       1,
       {

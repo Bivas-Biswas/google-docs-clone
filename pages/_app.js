@@ -18,7 +18,8 @@ function MyApp({ Component, pageProps }) {
 
       </Head>
       <Provider session={pageProps.session}>
-        <Component pageProps={{ ...pageProps }} />
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...pageProps} />
       </Provider>
     </>
 
