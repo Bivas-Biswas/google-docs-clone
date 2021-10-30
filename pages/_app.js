@@ -1,11 +1,11 @@
 import '@material-tailwind/react/tailwind.css';
 import 'tailwindcss/tailwind.css';
+import '../style/customTailwind.css';
 
 import Head from 'next/head';
 import { Provider } from 'next-auth/client';
 
 function MyApp({ Component, pageProps }) {
-  // console.log(pageProps);
   return (
     <>
       <Head>

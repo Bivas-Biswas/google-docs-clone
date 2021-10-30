@@ -7,7 +7,7 @@ import firebase from 'firebase/compat/app';
 import Image from 'next/image';
 import { getSession, useSession } from 'next-auth/client';
 import { useState } from 'react';
-import { useCollectionOnce } from 'react-firebase-hooks/firestore';
+import { useDocumentOnce } from 'react-firebase-hooks/firestore';
 
 import DocumentRow from '../components/DocumentRow';
 import Header from '../components/Header';
@@ -18,13 +18,12 @@ function Home() {
   const [session] = useSession();
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState('');
-  const [snapshot] = useCollectionOnce(session ?
+  const [snapshot] = useDocumentOnce(
     db
       .collection('userDocs')
-      .doc(session?.user.email)
+      .doc(session.user.email)
       .collection('docs')
       .orderBy('timestamp', 'desc')
-    : undefined
   );
 
   if (!session) {
@@ -141,8 +140,8 @@ function Home() {
 
 export default Home;
 
-export async function getServerSideProps() {
-  const session = await getSession();
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
   return {
     props: {
       session
