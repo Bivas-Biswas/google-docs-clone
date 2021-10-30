@@ -9,6 +9,7 @@ import { getSession, useSession } from 'next-auth/client';
 import { useState } from 'react';
 import { useCollectionOnce } from 'react-firebase-hooks/firestore';
 
+import DocumentRow from '../components/DocumentRow';
 import Header from '../components/Header';
 import LogIn from '../components/LogIn';
 import db from '../utils/firebase';
@@ -54,7 +55,7 @@ function Home() {
         <input
           type='text'
           value={input}
-          className='outline-none w-full'
+          className='outline-none border-2 w-full px-2 py-1 rounded focus:border-gray-500'
           placeholder='Enter name of the docment..'
           onChange={(event => setInput(event.target.value))}
           onKeyDown={
@@ -123,12 +124,16 @@ function Home() {
             <p className='mr-12'>Date Created</p>
             <Icon name='folder' size='3xl' color='gray' />
           </div>
+
+          {snapshot && snapshot?.docs.map(doc => (
+            <DocumentRow
+              key={doc.id}
+              id={doc.id}
+              fileName={doc.data().fileName}
+              date={doc.data().timestamp}
+            />
+          ))}
         </div>
-        {snapshot && snapshot?.docs.map(doc => (
-          <div key={doc.id}>
-            {JSON.stringify(doc.data())}
-          </div>
-        ))}
       </section>
     </>
   );
