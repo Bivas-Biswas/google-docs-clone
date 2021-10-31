@@ -1,10 +1,12 @@
 import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
+import Input from '@material-tailwind/react/Input';
 import Modal from '@material-tailwind/react/Modal';
 import ModalBody from '@material-tailwind/react/ModalBody';
 import ModalFooter from '@material-tailwind/react/ModalFooter';
 import firebase from 'firebase/compat/app';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/client';
 import { useState } from 'react';
 import { useDocumentOnce } from 'react-firebase-hooks/firestore';
@@ -16,6 +18,7 @@ import db from '../utils/firebase';
 
 function Home() {
   const [session] = useSession();
+  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState('');
   const [snapshot] = useDocumentOnce(
@@ -38,7 +41,7 @@ function Home() {
       .add({
         fileName: input,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      })
+      }).then((docRef) => router.push(`/docs/${docRef.id}`))
     ;
     setShowModal(false);
     setInput('');
@@ -51,11 +54,12 @@ function Home() {
       toggler={() => setShowModal(false)}
     >
       <ModalBody>
-        <input
+        <Input
           type='text'
           value={input}
+          color='lightBlue'
           className='outline-none border-2 w-full px-2 py-1 rounded focus:border-gray-500'
-          placeholder='Enter name of the docment..'
+          placeholder='Document Name'
           onChange={(event => setInput(event.target.value))}
           onKeyDown={
             (e) => e.key === 'Enter' && handleCreateDoucument()
@@ -124,14 +128,15 @@ function Home() {
             <Icon name='folder' size='3xl' color='gray' />
           </div>
 
-          {snapshot && snapshot?.docs.map(doc => (
-            <DocumentRow
-              key={doc.id}
-              id={doc.id}
-              fileName={doc.data().fileName}
-              date={doc.data().timestamp}
-            />
-          ))}
+          {snapshot ? (
+            snapshot?.docs.map(doc => (
+              <DocumentRow
+                key={doc.id}
+                id={doc.id}
+                fileName={doc.data().fileName}
+                date={doc.data().timestamp}
+              />
+            ))) : <h1>Hell</h1>}
         </div>
       </section>
     </>
