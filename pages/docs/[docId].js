@@ -71,7 +71,7 @@ const DocId = () => {
         />
       </header>
 
-      <TextEditor />
+      {snapshot?.data() && <TextEditor editorData={snapshot?.data().editorState} />}
     </div>
   );
 };
