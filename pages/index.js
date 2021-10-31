@@ -21,12 +21,12 @@ function Home() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState('');
-  const [snapshot] = useDocumentOnce(
+  const [snapshot] = useDocumentOnce(session ?
     db
       .collection('userDocs')
       .doc(session.user.email)
       .collection('docs')
-      .orderBy('timestamp', 'desc')
+      .orderBy('timestamp', 'desc') : undefined
   );
 
   if (!session) {
