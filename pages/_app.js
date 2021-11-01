@@ -1,6 +1,7 @@
 import '@material-tailwind/react/tailwind.css';
 import 'tailwindcss/tailwind.css';
 import '../style/customTailwind.css';
+import '../style/loader.css';
 
 import Head from 'next/head';
 import { Provider } from 'next-auth/client';

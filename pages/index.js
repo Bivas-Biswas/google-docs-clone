@@ -13,6 +13,7 @@ import { useDocument } from 'react-firebase-hooks/firestore';
 
 import DocumentRow from '../components/DocumentRow';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
 import LogIn from '../components/LogIn';
 import db from '../utils/firebase';
 
@@ -21,6 +22,7 @@ function Home() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState('');
+  const [showLoader, setShowLoader] = useState(false);
   const [snapshot] = useDocument(session ?
     db
       .collection('userDocs')
@@ -35,14 +37,18 @@ function Home() {
 
   function handleCreateDoucument() {
     if (!input) return;
+    setShowLoader(true);
     db.collection('userDocs')
       .doc(session.user.email)
       .collection('docs')
       .add({
         fileName: input,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then((docRef) => router.push(`/docs/${docRef.id}`))
-    ;
+      })
+      .then((docRef) => {
+        router.push(`/docs/${docRef.id}`)
+          .then(() => setShowLoader(false));
+      });
     setShowModal(false);
     setInput('');
   }
@@ -92,9 +98,9 @@ function Home() {
     <>
       <Header />
       {addDocumentmodal}
-      <section className='bg-[#F8F9FA] pb-10 px-10'>
+      <section className='bg-[#F8F9FA] pb-5 px-10'>
         <div className='max-w-3xl mx-auto'>
-          <div className='flex items-center justify-between py-6'>
+          <div className='flex items-center justify-between py-4'>
             <h2 className='text-gray-700 text-lg'>Start a new document</h2>
             <Button
               color='gray'
@@ -109,7 +115,7 @@ function Home() {
           <div>
             <button
               type='button'
-              className='relative h-52 w-40 border-2 cursor-pointer
+              className='relative h-40 w-32 border-2 cursor-pointer
               hover:border-blue-700'
               onClick={() => setShowModal(true)}
             >
@@ -129,7 +135,7 @@ function Home() {
           </div>
 
           {snapshot ? (
-            snapshot?.docs.map(doc => (
+            snapshot.docs.map(doc => (
               <DocumentRow
                 key={doc.id}
                 id={doc.id}
@@ -138,7 +144,9 @@ function Home() {
               />
             ))) : <h1>Hell</h1>}
         </div>
+        {showLoader && <Loading />}
       </section>
+
     </>
   );
 }
