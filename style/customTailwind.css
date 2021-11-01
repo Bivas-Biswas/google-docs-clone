@@ -7,10 +7,11 @@
     }
 
     .menu {
-        @apply absolute shadow border-2 py-1 rounded -right-3/4 select-none text-base m-1
+        @apply z-10 absolute bg-white shadow border-2 py-1 right-0
+        top-10 rounded select-none text-base m-1
     }
 
     .menu-item {
-        @apply flex items-center px-3.5 py-1 cursor-pointer hover:bg-gray-200
+        @apply flex items-center bg-white px-3.5 py-1 cursor-pointer hover:bg-gray-200
     }
 }

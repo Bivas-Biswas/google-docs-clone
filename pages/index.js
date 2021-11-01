@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/client';
 import { useState } from 'react';
-import { useDocumentOnce } from 'react-firebase-hooks/firestore';
+import { useDocument } from 'react-firebase-hooks/firestore';
 
 import DocumentRow from '../components/DocumentRow';
 import Header from '../components/Header';
@@ -21,7 +21,7 @@ function Home() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState('');
-  const [snapshot] = useDocumentOnce(session ?
+  const [snapshot] = useDocument(session ?
     db
       .collection('userDocs')
       .doc(session.user.email)
@@ -47,7 +47,7 @@ function Home() {
     setInput('');
   }
 
-  const modal = (
+  const addDocumentmodal = (
     <Modal
       size='sm'
       active={showModal}
@@ -91,7 +91,7 @@ function Home() {
   return (
     <>
       <Header />
-      {modal}
+      {addDocumentmodal}
       <section className='bg-[#F8F9FA] pb-10 px-10'>
         <div className='max-w-3xl mx-auto'>
           <div className='flex items-center justify-between py-6'>
