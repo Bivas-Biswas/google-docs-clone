@@ -5,4 +5,12 @@
         @apply cursor-pointer hover:bg-gray-100
         transition duration-200 ease-out px-2 py-1 rounded-lg;
     }
+
+    .menu {
+        @apply absolute shadow border-2 py-1 rounded -right-3/4 select-none text-base m-1
+    }
+
+    .menu-item {
+        @apply flex items-center px-3.5 py-1 cursor-pointer hover:bg-gray-200
+    }
 }
