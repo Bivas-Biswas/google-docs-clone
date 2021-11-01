@@ -1,5 +1,6 @@
 import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/client';
 import React from 'react';
@@ -30,10 +31,14 @@ const DocId = () => {
 
   return (
     <div>
+      <Head>
+        <title>{snapshot?.data().fileName} - Google Docs</title>
+      </Head>
+
       {snapshot?.data() && (<>
         <header className='flex justify-between items-center p-3'>
         <span onClick={() => router.push('/')} className='cursor-pointer'>
-        <Icon name='description' size='5xl' color='blue' />
+          <Icon name='description' size='5xl' color='blue' />
         </span>
 
           <div className='flex-grow px-2'>

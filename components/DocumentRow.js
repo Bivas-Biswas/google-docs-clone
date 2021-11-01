@@ -133,6 +133,7 @@ function DocumentRow({ id, fileName, date }) {
 
   return (
     <>
+
       {showLoader && <Loading />}
       <div
         className='flex relative items-center justify-between rounded pl-1 select-none

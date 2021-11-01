@@ -1,5 +1,6 @@
 import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
+import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/client';
 
 const Header = () => {
@@ -16,9 +17,12 @@ const Header = () => {
       >
         <Icon name='menu' size='3xl' />
       </Button>
-      <Icon name='description' size='5xl' color='blue' />
-      <h1 className='ml-2 text-gray-700 text-2xl'>Docs</h1>
-
+      <Link href='/' passHref>
+        <a href='replace' className='cursor-pointer inline-block flex flex-row items-center'>
+          <Icon name='description' size='5xl' color='blue' />
+          <h1 className='ml-2 text-gray-700 text-2xl'>Docs</h1>
+        </a>
+      </Link>
       <div
         className='flex flex-grow items-center shadow-none justify-end
       sm:justify-start md:mx-16 lg:mx-40 xl:mx-60
@@ -48,6 +52,7 @@ const Header = () => {
         bg-transparent outline-none text-md lg:text-lg'
         />
       </div>
+      ;
 
       <Button
         color='grey'
@@ -58,7 +63,7 @@ const Header = () => {
         clasname='h-20 w-20'
       >
         <Icon name='apps' size='3xl' />
-      </Button>
+      </Button>;
 
       <button type='submit'
               onClick={signOut}
@@ -69,9 +74,10 @@ const Header = () => {
           src={session?.user?.image}
           alt='profile'
         />
-      </button>
+      </button>;
 
     </div>
-  );
+  )
+    ;
 };
 export default Header;
