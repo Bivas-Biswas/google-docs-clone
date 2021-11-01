@@ -37,9 +37,9 @@ const DocId = () => {
 
       {snapshot?.data() && (<>
         <header className='flex justify-between items-center p-3'>
-        <span onClick={() => router.push('/')} className='cursor-pointer'>
-          <Icon name='description' size='5xl' color='blue' />
-        </span>
+          <a href='/' className='cursor-pointer'>
+            <Icon name='description' size='5xl' color='blue' />
+          </a>
 
           <div className='flex-grow px-2'>
             <h2 className='text-xl font-semibold'>

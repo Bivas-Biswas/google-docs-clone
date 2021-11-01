@@ -94,7 +94,8 @@ function DocumentRow({ id, fileName, date }) {
           type='text'
           value={input}
           color='lightBlue'
-          className='outline-none border-2 w-full px-2 py-1 rounded focus:border-gray-500'
+          outline={false}
+          size='lg'
           placeholder='Document Name'
           onChange={(event => setInput(event.target.value))}
           onKeyDown={
@@ -133,18 +134,17 @@ function DocumentRow({ id, fileName, date }) {
 
   return (
     <>
-
       {showLoader && <Loading />}
       <div
-        className='flex relative items-center justify-between rounded pl-1 select-none
-       hover:bg-blue-100 cursor-pointer text-gray-700 p-0'
+        className='flex relative items-center justify-between rounded-full select-none
+       hover:bg-blue-100 cursor-pointer text-gray-700 px-3 py-1'
       >
         <div
           className='flex items-center w-full'
           onClick={handleOpenDoc}
         >
           <Icon name='article' size='3xl' color='blue' />
-          <p className='flex-grow pl-5 w-10 pr-10 truncate text-base'>{updatefileName}</p>
+          <p className='flex-grow pl-5 w-10 pr-10 truncate text-md font-semibold'>{updatefileName}</p>
           <p className='pr-5 text-sm z-0'>{moment(date?.toDate()).calendar()}</p>
         </div>
 

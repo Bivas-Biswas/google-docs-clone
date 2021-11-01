@@ -57,14 +57,18 @@ function Home() {
     <Modal
       size='sm'
       active={showModal}
-      toggler={() => setShowModal(false)}
+      toggler={() => {
+        setShowModal(false);
+        setInput('');
+      }}
     >
       <ModalBody>
         <Input
           type='text'
           value={input}
           color='lightBlue'
-          className='outline-none border-2 w-full px-2 py-1 rounded focus:border-gray-500'
+          outline={false}
+          size='lg'
           placeholder='Document Name'
           onChange={(event => setInput(event.target.value))}
           onKeyDown={
@@ -76,7 +80,10 @@ function Home() {
         <Button
           color='blue'
           buttonType='link'
-          onClick={() => setShowModal(false)}
+          onClick={() => {
+            setShowModal(false);
+            setInput('');
+          }}
           ripple='dark'
         >
           Cancel
@@ -99,13 +106,14 @@ function Home() {
       <Header />
       {addDocumentmodal}
       <section className='bg-[#F8F9FA] pb-5 px-10'>
-        <div className='max-w-3xl mx-auto'>
+        <div className='max-w-4xl mx-auto'>
           <div className='flex items-center justify-between py-4'>
-            <h2 className='text-gray-700 text-lg'>Start a new document</h2>
+            <h2 className='text-gray-700 font-semibold'>Start a new document</h2>
             <Button
               color='gray'
               buttonType='link'
               iconOnly
+              rounded
               ripple='dark'
             >
               <Icon name='more_vert' size='3xl' />
@@ -115,34 +123,46 @@ function Home() {
           <div>
             <button
               type='button'
-              className='relative h-40 w-32 border-2 cursor-pointer
-              hover:border-blue-700'
+              className='relative h-44 w-36 border-2 cursor-pointer
+              hover:border-blue-700 rounded-sm'
               onClick={() => setShowModal(true)}
             >
               <Image src='/image/add_image.png' layout='fill' />
             </button>
-            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Blank</p>
+            <p className='mt-2 font-semibold text-sm text-gray-700'>Blank</p>
           </div>
         </div>
       </section>
 
-      <section className='bg-white px-10 md:px-0'>
-        <div className='max-w-3xl mx-auto py-8 text-sm text-gray-700'>
-          <div className='flex items-center justify-between pb-5'>
-            <h2 className='font-medium flex-grow'>My Documents</h2>
+      <section className='bg-white px-10 md:px-0 '>
+        <div className='max-w-4xl mx-auto py-5 text-sm text-gray-700 '>
+          <div className='flex items-center justify-between pb-4 px-3 font-semibold'>
+            <h4 className='flex-grow'>Today</h4>
             <p className='mr-12'>Date Created</p>
-            <Icon name='folder' size='3xl' color='gray' />
-          </div>
 
-          {snapshot ? (
-            snapshot.docs.map(doc => (
-              <DocumentRow
-                key={doc.id}
-                id={doc.id}
-                fileName={doc.data().fileName}
-                date={doc.data().timestamp}
-              />
-            ))) : <Loading />}
+            <Button
+              color='gray'
+              buttonType='link'
+              iconOnly
+              rounded
+              ripple='dark'
+            >
+              <Icon name='folder_open' size='2xl' color='gray' />
+            </Button>
+
+          </div>
+          <div>
+            {snapshot ? (
+              snapshot.docs.map(doc => (
+                <DocumentRow
+                  key={doc.id}
+                  id={doc.id}
+                  fileName={doc.data().fileName}
+                  date={doc.data().timestamp}
+                />
+              ))) : <Loading />}
+
+          </div>
         </div>
         {showLoader && <Loading />}
       </section>
