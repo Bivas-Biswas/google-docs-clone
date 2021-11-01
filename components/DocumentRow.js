@@ -21,7 +21,7 @@ function DocumentRow({ id, fileName, date }) {
   const [showLoader, setShowLoader] = useState(false);
   const [input, setInput] = useState(fileName);
   const [updatefileName, setUpdatefileName] = useState(fileName);
-  const [showRenameModal, setShowRenameModal] = useState({
+  const [showOptionModal, setShowOptionModal] = useState({
     rename: false,
     remove: false
   });
@@ -33,7 +33,7 @@ function DocumentRow({ id, fileName, date }) {
       .collection('docs')
       .doc(id)
       .delete();
-    setShowRenameModal({ ...showRenameModal, remove: false });
+    setShowOptionModal({ ...showOptionModal, remove: false });
   };
 
   const handleRenameDoucument = () => {
@@ -45,16 +45,16 @@ function DocumentRow({ id, fileName, date }) {
       .update({
         'fileName': input
       });
-    setShowRenameModal({ ...showRenameModal, rename: false });
+    setShowOptionModal({ ...showOptionModal, rename: false });
     setInput(input);
     setUpdatefileName(input);
   };
 
-  const DeleDocModal = (
+  const RemoveDocModal = (
     <Modal
       size='sm'
-      active={showRenameModal.remove}
-      toggler={() => setShowRenameModal({ ...showRenameModal, remove: false })}
+      active={showOptionModal.remove}
+      toggler={() => setShowOptionModal({ ...showOptionModal, remove: false })}
     >
       <ModalBody>
         <h1>Are You Sure to delete the file?</h1>
@@ -64,7 +64,7 @@ function DocumentRow({ id, fileName, date }) {
           color='blue'
           buttonType='link'
           onClick={() => {
-            setShowRenameModal({ ...showRenameModal, remove: false });
+            setShowOptionModal({ ...showOptionModal, remove: false });
             setInput(updatefileName);
           }}
           ripple='dark'
@@ -86,8 +86,8 @@ function DocumentRow({ id, fileName, date }) {
   const RenameDocModal = (
     <Modal
       size='sm'
-      active={showRenameModal.rename}
-      toggler={() => setShowRenameModal({ ...showRenameModal, rename: false })}
+      active={showOptionModal.rename}
+      toggler={() => setShowOptionModal({ ...showOptionModal, rename: false })}
     >
       <ModalBody>
         <Input
@@ -107,7 +107,7 @@ function DocumentRow({ id, fileName, date }) {
           color='blue'
           buttonType='link'
           onClick={() => {
-            setShowRenameModal({ ...showRenameModal, rename: false });
+            setShowOptionModal({ ...showOptionModal, rename: false });
             setInput(updatefileName);
           }}
           ripple='dark'
@@ -127,9 +127,9 @@ function DocumentRow({ id, fileName, date }) {
   );
 
   const handleOpenDoc = () => {
-    setShowLoader(true)
-    router.push(`/docs/${id}`).then(() => setShowLoader(false))
-  }
+    setShowLoader(true);
+    router.push(`/docs/${id}`).then(() => setShowLoader(false));
+  };
 
   return (
     <>
@@ -159,8 +159,8 @@ function DocumentRow({ id, fileName, date }) {
             <Icon name='more_vert' size='3xl' />
           </Button>
 
-          {RenameDocModal}
-          {DeleDocModal}
+          {showOptionModal.rename && RenameDocModal}
+          {showOptionModal.remove && RemoveDocModal}
 
           {
             isMenuOpen && (
@@ -169,7 +169,7 @@ function DocumentRow({ id, fileName, date }) {
                   className='menu-item'
                   onClick={() => {
                     setIsMenuOpen(false);
-                    setShowRenameModal({ ...showRenameModal, rename: true });
+                    setShowOptionModal({ ...showOptionModal, rename: true });
                   }}
                 >
                 <span className='pr-3'>
@@ -181,7 +181,7 @@ function DocumentRow({ id, fileName, date }) {
                 <div
                   className='menu-item'
                   onClick={() => {
-                    setShowRenameModal({ ...showRenameModal, remove: true });
+                    setShowOptionModal({ ...showOptionModal, remove: true });
                     setIsMenuOpen(false);
                   }}
                 >
