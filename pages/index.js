@@ -142,7 +142,7 @@ function Home() {
                 fileName={doc.data().fileName}
                 date={doc.data().timestamp}
               />
-            ))) : <h1>Hell</h1>}
+            ))) : <Loading />}
         </div>
         {showLoader && <Loading />}
       </section>

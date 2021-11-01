@@ -11,12 +11,14 @@ import { useRef, useState } from 'react';
 
 import useOnClickOutside from '../hooks/useOnClickOutside';
 import db from '../utils/firebase';
+import Loading from './Loading';
 
 function DocumentRow({ id, fileName, date }) {
   const router = useRouter();
   const [session] = useSession();
   const ref = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const [input, setInput] = useState(fileName);
   const [updatefileName, setUpdatefileName] = useState(fileName);
   const [showRenameModal, setShowRenameModal] = useState({
@@ -124,16 +126,21 @@ function DocumentRow({ id, fileName, date }) {
     </Modal>
   );
 
+  const handleOpenDoc = () => {
+    setShowLoader(true)
+    router.push(`/docs/${id}`).then(() => setShowLoader(false))
+  }
+
   return (
     <>
-
+      {showLoader && <Loading />}
       <div
         className='flex relative items-center justify-between rounded pl-1 select-none
        hover:bg-blue-100 cursor-pointer text-gray-700 p-0'
       >
         <div
           className='flex items-center w-full'
-          onClick={() => router.push(`/docs/${id}`)}
+          onClick={handleOpenDoc}
         >
           <Icon name='article' size='3xl' color='blue' />
           <p className='flex-grow pl-5 w-10 pr-10 truncate text-base'>{updatefileName}</p>
