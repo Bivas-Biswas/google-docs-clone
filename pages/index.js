@@ -4,11 +4,13 @@ import Input from '@material-tailwind/react/Input';
 import Modal from '@material-tailwind/react/Modal';
 import ModalBody from '@material-tailwind/react/ModalBody';
 import ModalFooter from '@material-tailwind/react/ModalFooter';
+import Tooltips from '@material-tailwind/react/Tooltips';
+import TooltipsContent from '@material-tailwind/react/TooltipsContent';
 import firebase from 'firebase/compat/app';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDocument } from 'react-firebase-hooks/firestore';
 
 import DocumentRow from '../components/DocumentRow';
@@ -23,6 +25,7 @@ function Home() {
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState('');
   const [showLoader, setShowLoader] = useState(false);
+
   const [snapshot] = useDocument(session ?
     db
       .collection('userDocs')
@@ -30,6 +33,8 @@ function Home() {
       .collection('docs')
       .orderBy('timestamp', 'desc') : undefined
   );
+
+  const buttonRef = useRef();
 
   if (!session) {
     return <LogIn />;
@@ -110,11 +115,12 @@ function Home() {
           <div className='flex items-center justify-between py-4'>
             <h2 className='text-gray-700 font-semibold'>Start a new document</h2>
             <Button
-              color='gray'
+              color='dark'
               buttonType='link'
               iconOnly
               rounded
               ripple='dark'
+              className='hover:bg-gray-200'
             >
               <Icon name='more_vert' size='3xl' />
             </Button>
@@ -138,17 +144,60 @@ function Home() {
         <div className='max-w-4xl mx-auto py-5 text-sm text-gray-700 '>
           <div className='flex items-center justify-between pb-4 px-3 font-semibold'>
             <h4 className='flex-grow'>Today</h4>
-            <p className='mr-12'>Date Created</p>
+            <p className='mr-6'>Date Created</p>
 
-            <Button
-              color='gray'
-              buttonType='link'
-              iconOnly
-              rounded
-              ripple='dark'
-            >
-              <Icon name='folder_open' size='2xl' color='gray' />
-            </Button>
+            <span>
+              <Button
+                color='dark'
+                buttonType='link'
+                iconOnly
+                rounded
+                ripple='dark'
+                className='hover:bg-gray-100 mr-2'
+                ref={buttonRef}
+              >
+                <Icon name='view_module' size='2xl' />
+              </Button>
+
+              <Tooltips placement='bottom' ref={buttonRef}>
+                <TooltipsContent>Grid view</TooltipsContent>
+              </Tooltips>
+            </span>
+
+            <span>
+              <Button
+                color='dark'
+                buttonType='link'
+                iconOnly
+                rounded
+                ripple='dark'
+                className='hover:bg-gray-100 mr-2'
+                ref={buttonRef}
+              >
+                <Icon name='sort_by_alpha' size='2xl' />
+              </Button>
+
+              <Tooltips placement='bottom' ref={buttonRef}>
+                <TooltipsContent>Sort options</TooltipsContent>
+              </Tooltips>
+            </span>
+
+            <span>
+              <Button
+                color='dark'
+                buttonType='link'
+                iconOnly
+                rounded
+                ripple='dark'
+                className='hover:bg-gray-100'
+                ref={buttonRef}
+              >
+              <Icon name='folder_open' size='2xl' />
+              </Button>
+              <Tooltips placement='bottom' ref={buttonRef}>
+                <TooltipsContent>Open file picker</TooltipsContent>
+              </Tooltips>
+            </span>
 
           </div>
           <div>
