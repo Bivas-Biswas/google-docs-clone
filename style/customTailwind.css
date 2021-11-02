@@ -26,5 +26,9 @@
     .side-menu-item-text {
         @apply font-semibold text-gray-500 ml-4 text-sm
     }
+
+    .app-item {
+        @apply inline-block flex flex-col items-center cursor-pointer hover:bg-blue-100 px-1.5 py-2 rounded-md
+    }
 }
 

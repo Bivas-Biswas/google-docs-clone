@@ -2,13 +2,18 @@ import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
+import useOnClickOutside from '../hooks/useOnClickOutside';
+import AllApps from './AllApps';
 import SideOption from './SideOption';
 
 const Header = () => {
   const [session] = useSession();
+  const appMenuRef = useRef();
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const [isAppsMenuShow, setIsAppsMenuShow] = useState(false);
+  useOnClickOutside(appMenuRef, () => setIsAppsMenuShow(false));
 
   return (
     <>
@@ -65,23 +70,27 @@ const Header = () => {
           </div>
         </div>
 
-        <Button
-          color='dark'
-          buttonType='link'
-          rounded
-          block={false}
-          iconOnly
-          ripple='dark'
-          className='focus:bg-gray-200 hover:bg-gray-200'
-        >
-          <Icon name='apps' size='3xl' />
-        </Button>
+        <div className='relative' ref={appMenuRef}>
+          <Button
+            color='dark'
+            buttonType='link'
+            rounded
+            block={false}
+            iconOnly
+            ripple='dark'
+            className={`${isAppsMenuShow ? 'bg-gray-200' : ''} hover:bg-gray-200`}
+            onClick={() => setIsAppsMenuShow(!isAppsMenuShow)}
+          >
+            <Icon name='apps' size='3xl' />
+          </Button>
+          {isAppsMenuShow && <AllApps setIsAppsMenuShow={setIsAppsMenuShow} />}
+        </div>
 
         <button
           type='submit'
           onClick={signOut}
           className='overflow-hidden focus:outline-none cursor-pointer
-        h-12 w-12 rounded-full ml-2 md:ml-5 focus:shadow-lg hover:shadow-lg'
+        h-10 w-10 rounded-full ml-2 md:ml-5 focus:shadow-lg hover:shadow-lg'
         >
           <img
             loading='lazy'
