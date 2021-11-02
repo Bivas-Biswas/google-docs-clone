@@ -107,7 +107,7 @@ function Home() {
   );
 
   return (
-    <>
+    <div className='absolute w-screen min-h-screen'>
       <Header />
       {addDocumentmodal}
       <section className='bg-[#F8F9FA] pb-5 px-10'>
@@ -228,7 +228,7 @@ function Home() {
         {showLoader && <Loading />}
       </section>
 
-    </>
+    </div>
   );
 }
 
