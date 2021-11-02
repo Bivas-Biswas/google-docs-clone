@@ -114,16 +114,28 @@ function Home() {
         <div className='max-w-4xl mx-auto'>
           <div className='flex items-center justify-between py-4'>
             <h2 className='text-gray-700 font-semibold'>Start a new document</h2>
-            <Button
-              color='dark'
-              buttonType='link'
-              iconOnly
-              rounded
-              ripple='dark'
-              className='hover:bg-gray-200'
-            >
-              <Icon name='more_vert' size='3xl' />
-            </Button>
+
+            <div className='flex items-center'>
+              <button
+                type='button'
+                className='flex items-center hover:bg-gray-200 focus:outline-none
+                px-2 py-1 mr-1.5 font-medium border-r rounded-sm focus:bg-gray-200'
+              >
+                Template gallery
+                <Icon name='unfold_more' size='2xl' />
+              </button>
+
+              <Button
+                color='dark'
+                buttonType='link'
+                iconOnly
+                rounded
+                ripple='dark'
+                className='hover:bg-gray-200 '
+              >
+                <Icon name='more_vert' size='3xl' />
+              </Button>
+            </div>
           </div>
 
           <div>
