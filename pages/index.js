@@ -131,7 +131,7 @@ function Home() {
                 iconOnly
                 rounded
                 ripple='dark'
-                className='hover:bg-gray-200 '
+                className='hover:bg-gray-200 focus:bg-gray-200'
               >
                 <Icon name='more_vert' size='3xl' />
               </Button>
@@ -165,7 +165,7 @@ function Home() {
                 iconOnly
                 rounded
                 ripple='dark'
-                className='hover:bg-gray-100 mr-2'
+                className='hover:bg-gray-100 mr-2 focus:bg-gray-200'
                 ref={buttonRef}
               >
                 <Icon name='view_module' size='2xl' />
@@ -183,7 +183,7 @@ function Home() {
                 iconOnly
                 rounded
                 ripple='dark'
-                className='hover:bg-gray-100 mr-2'
+                className='hover:bg-gray-100 mr-2 focus:bg-gray-200'
                 ref={buttonRef}
               >
                 <Icon name='sort_by_alpha' size='2xl' />
@@ -201,7 +201,7 @@ function Home() {
                 iconOnly
                 rounded
                 ripple='dark'
-                className='hover:bg-gray-100'
+                className='hover:bg-gray-100 focus:bg-gray-200'
                 ref={buttonRef}
               >
               <Icon name='folder_open' size='2xl' />

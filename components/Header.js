@@ -9,11 +9,12 @@ const Header = () => {
   return (
     <div className='flex sticky top-0 z-50 items-center justify-between px-4 py-2 shadow-sm bg-white'>
       <Button
-        color='grey'
+        color='dark'
         buttonType='link'
         rounded
         iconOnly
         ripple='dark'
+        className='focus:bg-gray-200 hover:bg-gray-200'
       >
         <Icon name='menu' size='2xl' />
       </Button>
@@ -35,11 +36,12 @@ const Header = () => {
           <Button
             buttonType='link'
             size='regular'
-            color='grey'
+            color='dark'
             rounded
             block={false}
             iconOnly
             ripple='dark'
+            className='focus:bg-gray-200 hover:bg-gray-200'
           >
             <Icon
               name='search'
@@ -51,18 +53,19 @@ const Header = () => {
             type='text'
             placeholder='Search'
             className='hidden sm:block flex-grow px-3 text-base
-        bg-transparent outline-none text-md lg:text-lg'
+            bg-transparent outline-none text-md lg:text-lg'
           />
         </div>
       </div>
 
       <Button
-        color='grey'
+        color='dark'
         buttonType='link'
         rounded
+        block={false}
         iconOnly
         ripple='dark'
-        clasname='h-20 w-20'
+        className='focus:bg-gray-200 hover:bg-gray-200'
       >
         <Icon name='apps' size='3xl' />
       </Button>
@@ -71,7 +74,7 @@ const Header = () => {
         type='submit'
         onClick={signOut}
         className='overflow-hidden focus:outline-none cursor-pointer
-        h-12 w-12 rounded-full ml-2 md:ml-5'
+        h-12 w-12 rounded-full ml-2 md:ml-5 focus:shadow-lg hover:shadow-lg'
       >
         <img
           loading='lazy'

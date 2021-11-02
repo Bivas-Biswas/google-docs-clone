@@ -150,11 +150,12 @@ function DocumentRow({ id, fileName, date }) {
 
         <div ref={ref}>
           <Button
-            color='gray'
+            color='dark'
             buttonType='link'
             iconOnly
             rounded
             ripple='dark'
+            className='hover:bg-gray-100'
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <Icon name='more_vert' size='3xl' />
