@@ -12,6 +12,8 @@ import { useRef, useState } from 'react';
 import useOnClickOutside from '../hooks/useOnClickOutside';
 import db from '../utils/firebase';
 import Loading from './Loading';
+import Menu from './Menu';
+import MenuItem from './MenuItem';
 
 function DocumentRow({ id, fileName, date }) {
   const router = useRouter();
@@ -164,48 +166,40 @@ function DocumentRow({ id, fileName, date }) {
           {showOptionModal.rename && RenameDocModal}
           {showOptionModal.remove && RemoveDocModal}
 
-          {
-            isMenuOpen && (
-              <div className='menu'>
-                <div
-                  className='menu-item'
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setShowOptionModal({ ...showOptionModal, rename: true });
-                  }}
-                >
+          <Menu open={isMenuOpen} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}>
+            <MenuItem
+              onClick={() => {
+                setShowOptionModal({ ...showOptionModal, rename: true });
+              }}
+            >
                 <span className='pr-3'>
                   <Icon name='text_fields' size='2xl' />
                 </span>
-                  <p>Rename</p>
-                </div>
+              <p>Rename</p>
+            </MenuItem>
 
-                <div
-                  className='menu-item'
-                  onClick={() => {
-                    setShowOptionModal({ ...showOptionModal, remove: true });
-                    setIsMenuOpen(false);
-                  }}
-                >
+            <MenuItem
+              onClick={() => {
+                setShowOptionModal({ ...showOptionModal, remove: true });
+              }}
+            >
                 <span className='pr-3'>
                   <Icon name='delete' size='2xl' />
                 </span>
-                  <p>Remove</p>
-                </div>
+              <p>Remove</p>
+            </MenuItem>
 
-                <a href={`/docs/${id}`} target='_blank' rel='noreferrer'>
-                  <div
-                    className='menu-item'
-                  >
+            <a href={`/docs/${id}`} target='_blank' rel='noreferrer'>
+              <div
+                className='menu-item'
+              >
                 <span className='pr-3'>
                   <Icon name='launch' size='2xl' />
                 </span>
-                    <p className='whitespace-nowrap'>Open in new tab</p>
-                  </div>
-                </a>
+                <p className='whitespace-nowrap'>Open in new tab</p>
               </div>
-            )
-          }
+            </a>
+          </Menu>
         </div>
       </div>
     </>
