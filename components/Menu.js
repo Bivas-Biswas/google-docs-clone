@@ -8,9 +8,15 @@ function Menu(props) {
   };
 
   return (
-    <div className='menu' onClick={handleClick}>
-      {open && children}
-    </div>
+    <>
+      {
+        open && (
+          <div className='menu' onClick={handleClick}>
+            {children}
+          </div>
+        )
+      }
+    </>
   );
 }
 

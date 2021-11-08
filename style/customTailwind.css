@@ -12,7 +12,7 @@
     }
 
     .menu-item {
-        @apply flex items-center bg-white px-3.5 py-1 cursor-pointer hover:bg-gray-200
+        @apply flex items-center bg-white px-3.5 py-1 cursor-pointer hover:bg-gray-200 min-w-max
     }
 
     .side-menu-item-wrapper {
