@@ -17,6 +17,9 @@ import DocumentRow from '../components/DocumentRow';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import LogIn from '../components/LogIn';
+import Menu from '../components/Menu';
+import MenuItem from '../components/MenuItem';
+import useOnClickOutside from '../hooks/useOnClickOutside';
 import db from '../utils/firebase';
 
 function Home() {
@@ -25,16 +28,23 @@ function Home() {
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState('');
   const [showLoader, setShowLoader] = useState(false);
-
+  const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
+  const [selectSortOption, setSelectSortOption] = useState({
+    sortingBy: 'createdAt',
+    sortingOrder: 'desc',
+    name: 'Date Created'
+  });
+  const sortButtonRef = useRef();
   const [snapshot] = useDocument(session ?
     db
       .collection('userDocs')
       .doc(session.user.email)
       .collection('docs')
-      .orderBy('timestamp', 'desc') : undefined
+      .orderBy(selectSortOption.sortingBy, selectSortOption.sortingOrder) : undefined
   );
 
-  const buttonRef = useRef();
+  const buttonsTooltipRef = useRef();
+  useOnClickOutside(sortButtonRef, () => setIsSortMenuOpen(false));
 
   if (!session) {
     return <LogIn />;
@@ -48,7 +58,9 @@ function Home() {
       .collection('docs')
       .add({
         fileName: input,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        openedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        modifiedAt: firebase.firestore.FieldValue.serverTimestamp()
       })
       .then((docRef) => {
         router.push(`/docs/${docRef.id}`)
@@ -106,6 +118,23 @@ function Home() {
     </Modal>
   );
 
+  const handleSelectSortOptions = (optionName) => {
+    let name = '';
+    if (optionName === 'fileName') {
+      setSelectSortOption({
+        ...selectSortOption, sortingBy: optionName,
+        sortingOrder: 'asc', name: 'Last modified'
+      });
+    } else {
+      if (optionName === 'openedAt') {
+        name = 'Last opened';
+      } else if (optionName === 'modifiedAt') {
+        name = 'Last modified';
+      }
+      setSelectSortOption({ ...selectSortOption, sortingBy: optionName, name });
+    }
+  };
+
   return (
     <div className='absolute w-screen min-h-screen'>
       <Header />
@@ -153,10 +182,11 @@ function Home() {
       </section>
 
       <section className='bg-white px-10 md:px-0 '>
-        <div className='max-w-4xl mx-auto py-5 text-sm text-gray-700 '>
-          <div className='flex items-center justify-between pb-4 px-3 font-semibold'>
-            <h4 className='flex-grow'>Today</h4>
-            <p className='mr-6'>Date Created</p>
+        <div className='max-w-4xl mx-auto py-5 text-sm text-gray-700'>
+          <div className='flex items-center justify-between pb-4 px-3 font-semibold relative'>
+            <h4 className='flex-grow'>
+              Documents by <b>{selectSortOption.sortingBy === 'fileName' ? 'Title' : 'Date'}</b></h4>
+            <p className='mr-10'>{selectSortOption.name}</p>
 
             <span>
               <Button
@@ -166,33 +196,41 @@ function Home() {
                 rounded
                 ripple='dark'
                 className='hover:bg-gray-100 mr-2 focus:bg-gray-200'
-                ref={buttonRef}
+                ref={buttonsTooltipRef}
               >
                 <Icon name='view_module' size='2xl' />
               </Button>
 
-              <Tooltips placement='bottom' ref={buttonRef}>
+              <Tooltips placement='bottom' ref={buttonsTooltipRef}>
                 <TooltipsContent>Grid view</TooltipsContent>
               </Tooltips>
             </span>
 
-            <span>
-              <Button
-                color='dark'
-                buttonType='link'
-                iconOnly
-                rounded
-                ripple='dark'
-                className='hover:bg-gray-100 mr-2 focus:bg-gray-200'
-                ref={buttonRef}
-              >
-                <Icon name='sort_by_alpha' size='2xl' />
-              </Button>
+            <div ref={sortButtonRef}>
+              <span>
+                <Button
+                  color='dark'
+                  buttonType='link'
+                  iconOnly
+                  rounded
+                  ripple='dark'
+                  className='hover:bg-gray-100 mr-2 focus:bg-gray-200'
+                  ref={buttonsTooltipRef}
+                  onClick={() => setIsSortMenuOpen(!isSortMenuOpen)}
+                >
+                  <Icon name='sort_by_alpha' size='2xl' />
+                </Button>
 
-              <Tooltips placement='bottom' ref={buttonRef}>
-                <TooltipsContent>Sort options</TooltipsContent>
-              </Tooltips>
-            </span>
+                <Tooltips placement='bottom' ref={buttonsTooltipRef}>
+                  <TooltipsContent>Sort options</TooltipsContent>
+                </Tooltips>
+              </span>
+              <Menu open={isSortMenuOpen} onClose={setIsSortMenuOpen}>
+                <MenuItem onClick={() => handleSelectSortOptions('openedAt')}>Last opened</MenuItem>
+                <MenuItem onClick={() => handleSelectSortOptions('modifiedAt')}>Last modified</MenuItem>
+                <MenuItem onClick={() => handleSelectSortOptions('fileName')}>Title</MenuItem>
+              </Menu>
+            </div>
 
             <span>
               <Button
@@ -202,11 +240,11 @@ function Home() {
                 rounded
                 ripple='dark'
                 className='hover:bg-gray-100 focus:bg-gray-200'
-                ref={buttonRef}
+                ref={buttonsTooltipRef}
               >
               <Icon name='folder_open' size='2xl' />
               </Button>
-              <Tooltips placement='bottom' ref={buttonRef}>
+              <Tooltips placement='bottom' ref={buttonsTooltipRef}>
                 <TooltipsContent>Open file picker</TooltipsContent>
               </Tooltips>
             </span>
@@ -219,7 +257,7 @@ function Home() {
                   key={doc.id}
                   id={doc.id}
                   fileName={doc.data().fileName}
-                  date={doc.data().timestamp}
+                  date={selectSortOption.sortingBy === 'fileName' ? doc.data().modifiedAt : doc.data()[selectSortOption.sortingBy]}
                 />
               ))) : <Loading />}
 

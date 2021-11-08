@@ -4,6 +4,7 @@ import Input from '@material-tailwind/react/Input';
 import Modal from '@material-tailwind/react/Modal';
 import ModalBody from '@material-tailwind/react/ModalBody';
 import ModalFooter from '@material-tailwind/react/ModalFooter';
+import firebase from 'firebase/compat/app';
 import moment from 'moment/moment';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/client';
@@ -132,6 +133,13 @@ function DocumentRow({ id, fileName, date }) {
   const handleOpenDoc = () => {
     setShowLoader(true);
     router.push(`/docs/${id}`).then(() => setShowLoader(false));
+    db.collection('userDocs')
+      .doc(session.user.email)
+      .collection('docs')
+      .doc(id)
+      .update({
+        openedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
   };
 
   return (
@@ -147,7 +155,7 @@ function DocumentRow({ id, fileName, date }) {
         >
           <Icon name='article' size='3xl' color='blue' />
           <p className='flex-grow pl-5 w-10 pr-10 truncate text-md font-semibold'>{updatefileName}</p>
-          <p className='pr-5 text-sm z-0'>{moment(date?.toDate()).calendar()}</p>
+          <p className='mr-28 text-sm z-0'>{moment(date?.toDate()).calendar()}</p>
         </div>
 
         <div ref={ref}>

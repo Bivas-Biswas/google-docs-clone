@@ -1,6 +1,7 @@
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import firebase from 'firebase/compat/app';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/client';
@@ -34,10 +35,9 @@ function TextEditor({ editorData }) {
     db
       .collection('userDocs')
       .doc(session.user.email)
-      .collection('docs').doc(docId).set({
-      editorState: convertToRaw(editorState?.getCurrentContent())
-    }, {
-      merge: true
+      .collection('docs').doc(docId).update({
+      editorState: convertToRaw(editorState?.getCurrentContent()),
+      modifiedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
   };
 
