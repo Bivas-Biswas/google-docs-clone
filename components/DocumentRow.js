@@ -166,7 +166,7 @@ function DocumentRow({ id, fileName, date }) {
           {showOptionModal.rename && RenameDocModal}
           {showOptionModal.remove && RemoveDocModal}
 
-          <Menu open={isMenuOpen} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}>
+          <Menu open={isMenuOpen} onClose={setIsMenuOpen}>
             <MenuItem
               onClick={() => {
                 setShowOptionModal({ ...showOptionModal, rename: true });

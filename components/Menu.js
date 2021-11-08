@@ -1,10 +1,10 @@
 import React from 'react';
 
 function Menu(props) {
-  const { open, setIsMenuOpen, children } = props;
+  const { open, onClose, children } = props;
 
   const handleClick = () => {
-    setIsMenuOpen(!open);
+    onClose(!open);
   };
 
   return (
